@@ -17,18 +17,23 @@ export class Searchbar extends Component {
     this.setState({ [target.name]: target.value });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+
+    const { onhandleSubmit } = this.props;
+
+    const querry = e.target.search.value.trim();
+
+    onhandleSubmit(querry);
+    this.setState({ search: '' });
+  };
+
   render() {
     const { search } = this.state;
-    const { handleSubmit } = this.props;
 
     return (
       <Header>
-        <Form
-          onSubmit={e => {
-            handleSubmit(e);
-            this.setState({ search: '' });
-          }}
-        >
+        <Form onSubmit={this.handleSubmit}>
           <SearchButton type="submit">
             <SearchButtonLabel>Search</SearchButtonLabel>
           </SearchButton>
@@ -49,5 +54,5 @@ export class Searchbar extends Component {
 }
 
 Searchbar.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  onhandleSubmit: PropTypes.func.isRequired,
 };

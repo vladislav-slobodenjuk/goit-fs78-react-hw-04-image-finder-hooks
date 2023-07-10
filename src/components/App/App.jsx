@@ -28,26 +28,32 @@ export const App = () => {
   //   isLoading: false,
   // };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const querry = e.target.search.value.trim();
+  const setSearchQuerry = querry => {
+    // e.preventDefault();
+    // const querry = e.target.search.value.trim();
 
     if (querry.length === 0) return console.log('empty querry');
-    if (querry === this.state.search) return console.log('same querry');
+    if (querry === search) return console.log('same querry');
 
-    this.setState({ search: querry, page: 1, totalPages: 1 });
+    // this.setState({ search: querry, page: 1, totalPages: 1 });
+    setSearch(querry);
+    setPage(1);
+    setTotalPages(1);
   };
 
   const openModal = img => {
-    this.setState({ modal: { isOpen: true, img } });
+    // this.setState({ modal: { isOpen: true, img } });
+    setModal({ modal: { isOpen: true, img } });
   };
 
   const closeModal = () => {
-    this.setState({ modal: { isOpen: false, img: null } });
+    // this.setState({ modal: { isOpen: false, img: null } });
+    setModal({ modal: { isOpen: false, img: null } });
   };
 
   const loadMore = () => {
-    this.setState(prev => ({ page: prev.page + 1 }));
+    // this.setState(prev => ({ page: prev.page + 1 }));
+    setPage((page += 1));
   };
 
   // async componentDidUpdate(_, prevState) {
@@ -96,7 +102,7 @@ export const App = () => {
 
   return (
     <Container>
-      <Searchbar handleSubmit={handleSubmit} />
+      <Searchbar onhandleSubmit={setSearchQuerry} />
       <ImageGallery images={images} onImgClick={openModal} />
 
       {images.length > 0 && page < totalPages && (
