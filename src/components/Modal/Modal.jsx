@@ -1,46 +1,57 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 import { Overlay, ModalContent } from './Modal.styled';
 
-export class Modal extends Component {
-  handleKeyDown = event => {
-    if (event.code === 'Escape') {
-      this.props.onCloseModal();
-    }
-  };
-
-  handleOverlayClick = event => {
+export const Modal = ({ img, onCloseModal }) => {
+  const handleOverlayClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.onCloseModal();
+      onCloseModal();
     }
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.code === 'Escape') {
+        onCloseModal();
+      }
+    };
 
+    window.addEventListener('keydown', handleKeyDown);
     // document.body.style.height = '100vh';
     // document.body.style.overflowY = 'hidden';
-  }
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      // document.body.style.height = 'unset';
+      // document.body.style.overflow = 'unset';
+      // document.body.removeAttribute('style');
+    };
+  }, [onCloseModal]);
 
-    // document.body.style.height = 'unset';
-    // document.body.style.overflow = 'unset';
-    document.body.removeAttribute('style');
-  }
+  // componentDidMount() {
+  //   window.addEventListener('keydown', this.handleKeyDown);
 
-  render() {
-    const { img } = this.props;
-    return (
-      <Overlay onClick={this.handleOverlayClick}>
-        <ModalContent>
-          <img src={img.large} alt={`${img.tags}`} />
-        </ModalContent>
-      </Overlay>
-    );
-  }
-}
+  //   // document.body.style.height = '100vh';
+  //   // document.body.style.overflowY = 'hidden';
+  // }
+
+  // componentWillUnmount() {
+  //   window.removeEventListener('keydown', this.handleKeyDown);
+
+  //   // document.body.style.height = 'unset';
+  //   // document.body.style.overflow = 'unset';
+  //   document.body.removeAttribute('style');
+  // }
+
+  // const { img } = this.props;
+  return (
+    <Overlay onClick={handleOverlayClick}>
+      <ModalContent>
+        <img src={img.large} alt={`${img.tags}`} />
+      </ModalContent>
+    </Overlay>
+  );
+};
 
 Modal.propTypes = {
   img: PropTypes.shape({

@@ -63,7 +63,7 @@ export const App = () => {
       try {
         // this.setState({ isLoading: true });
         setIsLoading(true);
-        setError(null);
+        setError(null); //new line
 
         const { hits, totalHits } = await getImages(search, page);
 
@@ -84,7 +84,7 @@ export const App = () => {
       }
     })();
 
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0 }); //new line
     //
   }, [search]);
 
