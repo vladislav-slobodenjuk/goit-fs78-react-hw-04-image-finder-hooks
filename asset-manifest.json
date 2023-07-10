@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/goit-fs78-react-hw-04-image-finder-hooks/static/css/main.cc11214b.css",
+    "main.js": "/goit-fs78-react-hw-04-image-finder-hooks/static/js/main.e7fd2024.js",
+    "index.html": "/goit-fs78-react-hw-04-image-finder-hooks/index.html",
+    "main.cc11214b.css.map": "/goit-fs78-react-hw-04-image-finder-hooks/static/css/main.cc11214b.css.map",
+    "main.e7fd2024.js.map": "/goit-fs78-react-hw-04-image-finder-hooks/static/js/main.e7fd2024.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cc11214b.css",
+    "static/js/main.e7fd2024.js"
+  ]
+}
