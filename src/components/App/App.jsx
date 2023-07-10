@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PER_PAGE, getImages } from 'services/api';
 
 import { Container } from './App.styled';
@@ -43,18 +43,80 @@ export const App = () => {
 
   const openModal = img => {
     // this.setState({ modal: { isOpen: true, img } });
-    setModal({ modal: { isOpen: true, img } });
+    setModal({ isOpen: true, img });
   };
 
   const closeModal = () => {
     // this.setState({ modal: { isOpen: false, img: null } });
-    setModal({ modal: { isOpen: false, img: null } });
+    setModal({ isOpen: false, img: null });
   };
 
   const loadMore = () => {
     // this.setState(prev => ({ page: prev.page + 1 }));
-    setPage((page += 1));
+    setPage(page + 1);
   };
+
+  useEffect(() => {
+    if (search === '') return;
+
+    (async () => {
+      try {
+        // this.setState({ isLoading: true });
+        setIsLoading(true);
+        setError(null);
+
+        const { hits, totalHits } = await getImages(search, page);
+
+        // this.setState({
+        //   images: hits,
+        //   totalPages: Math.ceil(totalHits / PER_PAGE),
+        // });
+        setImages(hits);
+        setTotalPages(Math.ceil(totalHits / PER_PAGE));
+        //
+      } catch (error) {
+        // this.setState({ error });
+        setError({ error });
+        console.log(error.message);
+      } finally {
+        // this.setState({ isLoading: false });
+        setIsLoading(false);
+      }
+    })();
+
+    window.scrollTo({ top: 0 });
+    //
+  }, [search]);
+
+  useEffect(() => {
+    if (page === 1) return;
+
+    (async () => {
+      try {
+        // this.setState({ isLoading: true });
+        setIsLoading(true);
+
+        const { hits } = await getImages(search, page);
+        // this.setState({ images: [...prevState.images, ...hits] });
+        setImages([...images, ...hits]);
+
+        //
+      } catch (error) {
+        // this.setState({ error });
+        setError({ error });
+        console.log(error.message);
+      } finally {
+        // this.setState({ isLoading: false });
+        setIsLoading(false);
+      }
+    })();
+  }, [page]);
+
+  useEffect(() => {
+    if (page === 1) return;
+
+    window.scrollBy({ top: 520, behavior: 'smooth' });
+  }, [images]);
 
   // async componentDidUpdate(_, prevState) {
   //   const { search, page, images } = this.state;
@@ -96,9 +158,6 @@ export const App = () => {
   //     }
   //   }
   // }
-
-  // const { search, images, modal, isLoading, page, totalPages, error } =
-  //   this.state;
 
   return (
     <Container>
